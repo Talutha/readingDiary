@@ -1,0 +1,19 @@
+{
+  "name": "readingdiary",
+  "version": "1.0.0",
+  "description": "Website to log reading summaries",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Talutha/readingDiary.git"
+  },
+  "author": "Marvin Warren",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Talutha/readingDiary/issues"
+  },
+  "homepage": "https://github.com/Talutha/readingDiary#readme"
+}
