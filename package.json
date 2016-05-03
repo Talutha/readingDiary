@@ -4,7 +4,8 @@
   "description": "Website to log reading summaries",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,13 @@
   "bugs": {
     "url": "https://github.com/Talutha/readingDiary/issues"
   },
-  "homepage": "https://github.com/Talutha/readingDiary#readme"
+  "homepage": "https://github.com/Talutha/readingDiary#readme",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "bookshelf": "^0.9.4",
+    "express": "^4.13.4",
+    "knex": "^0.10.0",
+    "pg": "^4.5.5",
+    "pug": "^2.0.0-alpha6"
+  }
 }
