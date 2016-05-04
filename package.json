@@ -18,10 +18,15 @@
   },
   "homepage": "https://github.com/Talutha/readingDiary#readme",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.0",
     "bookshelf": "^0.9.4",
+    "cookie-parser": "^1.4.1",
     "express": "^4.13.4",
+    "express-session": "^1.13.0",
     "knex": "^0.10.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
     "pg": "^4.5.5",
     "pug": "^2.0.0-alpha6"
   }

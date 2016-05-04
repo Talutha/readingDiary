@@ -1,44 +1,75 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var bcrypt = require('bcrypt-nodejs');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 var app = express();
+var bookshelf = require('./db');
 var router = express.Router();
 var path = __dirname + '/views/';
 
+var route = require('./route.js');
+var Model = require('./model.js');
+
 app.set('view engine', 'pug');
+app.set('views', path);
+app.use(cookieParser());
+app.use(session({secret: 'my secret it AWESOME!'}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(bodyParser());
+
+
+// Provides a user object to every page if the user is logged in
+app.use(function(req, res, next) {
+  var user = req.user;
+  if(user !== undefined) {
+    res.locals.user = user.toJSON();
+  }
+  next();
+});
+
+passport.use(new LocalStrategy(function(username, password, done) {
+  new Model.User({username: username}).fetch().then(function(data) {
+    var user = data;
+    if(user === null) {
+      return done(null, false, {message: 'Invalid username or password'});
+    } else {
+      user = data.toJSON();
+      if(!bcrypt.compareSync(password, user.password)) {
+        return done(null, false, {message: 'Invalid username or password'});
+      } else {
+        return done(null, user);;
+      }
+    }
+  });
+}));
+
+passport.serializeUser(function(user, done) {
+  done(null, user.username);
+});
+
+passport.deserializeUser(function(username, done) {
+  new Model.User({username: username}).fetch().then(function(user) {
+    done(null, user);
+  });
+});
 
 router.use(function (req, res, next) {
   console.log('/' + req.method);
   next();
 });
 
-router.get('/', function(req, res) {
-  res.render('index', {
-    title: 'Whoa there!',
-    name: 'Marvin'
-  });
-});
+app.get('/', route.index);
+app.get('/signin', route.signIn);
+app.post('/signin', route.signInPost);
+app.get('/register', route.register);
+app.post('/register', route.registerPost);
+app.get('/logout', route.signOut);
 
-router.get('/register', function(req, res) {
-  res.render('register');
-});
-
-router.post('/', function(req, res) {
-  console.log(req.body.book);
-  console.log(req.body.percent);
-  res.send('You are ' + req.body.percent + '% of the way through ' + req.body.book + '!');
-});
-
-router.post('/register', function(req, res) {
-  res.render('register', {
-      firstName:  req.body.firstName,
-      lastName:   req.body.lastName,
-      email:      req.body.emailAddress,
-      username:   req.body.username,
-      password:   req.body.password
-  });
-});
-
+app.use(route.notFound404);
 app.use('/', router);
 
 app.listen(3000, function() {

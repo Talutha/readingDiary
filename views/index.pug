@@ -1,12 +1,10 @@
-extends ./layout/layout.jade
+extends ./layout/layout.pug
 
 block title
   title Main Page
 
 block content
-  h1
-    | Hello
-    = ' ' + name + '!'
+  h1 Hello #{user.username}
   p.
     We've successfully created a simple website using Node, Express and
     Pug(formerly Jade).  We're on our way folks!

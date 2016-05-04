@@ -14,9 +14,13 @@ html(lang='en')
       div.container-fluid
         a.navbar-brand(href='/') Reading Diary
         ul.nav.navbar-nav.navbar-right
-          li
-            a(href='#') Login
-          li
-            a(href='register') Register
+          if user !== undefined
+            li
+              a(href='#') Hello #{user.firstName}!
+          else
+            li
+              a(href='signin') Login
+            li
+              a(href='register') Register
 
     block content
