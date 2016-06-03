@@ -1,0 +1,36 @@
+extends ./layout/layout.pug
+
+block title
+  title Add a Book
+
+block content
+
+  h1 Add a Book!
+
+  if successMessage
+    div.alert.alert-success(role='alert')
+      = successMessage
+
+  if errorMessage
+    div.alert.alert-danger(role='alert')
+      = errorMessage
+
+  div.page-content
+    div.add-book-search
+      form(method='post' name='add-book')
+        div.form-group
+          label(for='book-search') Search for Book to add
+          input#book-search.form-control(type='text' name='bookSearch' placeholder='Jurrasic Park')
+        div.form-group
+          label(for='author') Author
+          input#author.form-control(type='text' name='author' placeholder='Michael Crichton')
+        div.form-group
+          label(for='isbn') ISBN
+          input#isbn.form-control(type='text' name='isbn' placeholder='9780784838068')
+        div.form-group
+          label(for='image') Book Cover Image
+          input#image.form-control(type='text' name='image' placeholder='https://d.gr-assets.com/books/1344371661l/6424171.jpg')
+        div.form-group
+          label(for='description') Description
+          textarea#description.form-control(rows='4' name='description' placeholder='Description')
+        button.btn.btn-default(type='submit') Add to Library

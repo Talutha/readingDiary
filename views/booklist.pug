@@ -1,0 +1,23 @@
+extends ./layout/layout.pug
+
+block title
+  title Current Library
+
+block content
+  h1 List of books in system
+
+  if successMessage
+    div.alert.alert-success(role='alert')
+      = successMessage
+
+  each index in list
+    ul
+      li
+        img(src=index.image height=150)
+      li Title: #{index.title}
+      li #[a(href='/updatebook/' + index.isbn) Update]
+      if following.indexOf(index.bid) === -1
+        li #[a(href='/follow/' + index.isbn) Follow]
+      else
+        li #[a(href='/unfollow/' + index.isbn) Unfollow]
+      li Remove from Database

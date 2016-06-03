@@ -13,10 +13,13 @@ html(lang='en')
     nav.navbar.navbar-default
       div.container-fluid
         a.navbar-brand(href='/') Reading Diary
+        ul.nav.navbar-nav
+          li
+            a(href='newbook') Add Book
         ul.nav.navbar-nav.navbar-right
           if user !== undefined
             li
-              a(href='#') Hello #{user.firstName}!
+              a(href='#') Hello #{user.firstName}! #[a(href='/logout') (Not me)]
           else
             li
               a(href='signin') Login

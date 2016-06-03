@@ -1,0 +1,39 @@
+extends ./layout/layout.pug
+
+block title
+  title Add a Book
+
+block content
+
+  h1 Update a book!
+
+  if successMessage
+    div.alert.alert-success(role='alert')
+      = successMessage
+
+  if errorMessage
+    div.alert.alert-danger(role='alert')
+      = errorMessage
+
+  div.page-content
+    div.add-book-search
+      form(method='post' name='add-book')
+        div.form-group
+          label(for='book-search') Title
+          input#book-search.form-control(type='text' name='bookSearch' value=bookInfo.title)
+        div.form-group
+          label(for='book-id') Book ID
+          input#book-id.form-control(type='text' name='bookID' value=bookInfo.bid readonly)
+        div.form-group
+          label(for='author') Author
+          input#author.form-control(type='text' name='author' value=bookInfo.author)
+        div.form-group
+          label(for='isbn') ISBN
+          input#isbn.form-control(type='text' name='isbn' value=bookInfo.isbn readonly)
+        div.form-group
+          label(for='image') Book Cover Image
+          input#image.form-control(type='text' name='image' value=bookInfo.image)
+        div.form-group
+          label(for='description') Description
+          textarea#description.form-control(rows='4' name='description') #{bookInfo.description}
+        button.btn.btn-default(type='submit') Update Book!

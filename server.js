@@ -16,10 +16,16 @@ var Model = require('./model.js');
 app.set('view engine', 'pug');
 app.set('views', path);
 app.use(cookieParser());
-app.use(session({secret: 'my secret it AWESOME!'}));
+app.use(session({
+  secret: 'my secret it AWESOME!',
+  resave: false,
+  saveUninitialized: true}));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(bodyParser());
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
+app.use(bodyParser.json());
 
 
 // Provides a user object to every page if the user is logged in
@@ -57,12 +63,19 @@ passport.deserializeUser(function(username, done) {
   });
 });
 
-router.use(function (req, res, next) {
+app.use(function (req, res, next) {
   console.log('/' + req.method);
   next();
 });
 
 app.get('/', route.index);
+app.get('/newbook', route.newBook);
+app.post('/newbook', route.newBookPost);
+app.get('/updatebook/:isbn', route.updateBook);
+app.post('/updatebook/:isbn', route.updateBookPost);
+app.get('/booklist', route.bookList);
+app.get('/follow/:isbn', route.followBook);
+app.get('/unfollow/:isbn', route.unfollowBook);
 app.get('/signin', route.signIn);
 app.post('/signin', route.signInPost);
 app.get('/register', route.register);
