@@ -114,9 +114,10 @@ var followBook = function(req, res, next) {
         book_id: bookInfo.bid,
         author_id: user.uid
       });
-      return followPromise.save();
+      return followPromise.save().then(function () {
+        res.redirect('/booklist');
+      });
     });
-    res.redirect('/booklist');
   });
 };
 
@@ -159,9 +160,12 @@ var unfollowBook = function(req, res, next) {
       }).fetch();
       // Returns error that followPromise.destroy is not a function
       // I may have to get the lid of the row I want deleted and destroy that instead
-      return followPromise.destroy();
+      return followPromise.then(function (destroyThis) {
+        destroyThis.destroy().then(function () {
+          res.redirect('/booklist');
+        });
+      });
     });
-    res.redirect('/booklist');
   });
 }
 
