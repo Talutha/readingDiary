@@ -196,6 +196,11 @@ var signInPost = function(req, res, next) {
     })(req, res, next);
 };
 
+var newEntry = function(req, res, next) {
+  if(!req.isAuthenticated()) res.redirect('/signin');
+  res.render('newentry');
+}
+
 var register = function(req, res, next) {
   if(req.isAuthenticated()) {
     res.redirect('/');
@@ -259,6 +264,7 @@ module.exports = {
   newBookPost: newBookPost,
   updateBook: updateBook,
   updateBookPost: updateBookPost,
+  newEntry: newEntry,
   bookList: bookList,
   followBook: followBook,
   unfollowBook: unfollowBook,

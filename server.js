@@ -74,6 +74,7 @@ app.post('/newbook', route.newBookPost);
 app.get('/updatebook/:isbn', route.updateBook);
 app.post('/updatebook/:isbn', route.updateBookPost);
 app.get('/booklist', route.bookList);
+app.get('/newentry', route.newEntry);
 app.get('/follow/:isbn', route.followBook);
 app.get('/unfollow/:isbn', route.unfollowBook);
 app.get('/signin', route.signIn);
