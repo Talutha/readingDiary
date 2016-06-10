@@ -25,7 +25,10 @@ var Library = bookshelf.Model.extend({
     return this.belongsTo(User);
   },
   book: function() {
-    return this.belongsTo(Book);
+    return this.belongsTo(Book, 'bid');
+  },
+  books: function() {
+    return this.hasMany(Book, 'bid');
   }
 });
 
@@ -35,6 +38,9 @@ var Book = bookshelf.Model.extend({
   hasTimestamps: true,
   library: function() {
     return this.hasMany(Library);
+  },
+  libraries: function() {
+    return this.belongsToMany(Library, undefined, 'book_id');
   }
 })
 

@@ -122,8 +122,14 @@ var followBook = function(req, res, next) {
 };
 
 var bookList = function(req, res, next) {
+  // Check if a user is authenticated, if not redirect to signin
   if(!req.isAuthenticated()) res.redirect('/signin');
+  // Making user readable
   var user = req.user.toJSON();
+  // This fetches EVERY SINGLE BOOK in the Database
+  // NOT EFFICIENT when the library grows
+  // Need to find a way to only fetch currently followed books
+  // This may not be needed as I am not sure if this page is even needed overall.
   var bookListPromise = new Model.Book().fetchAll();
   var userLibraryPromise = Model.User.where({uid: user.uid}).fetch({withRelated: ['library']});
   userLibraryPromise.then(function(followList) {
@@ -196,9 +202,32 @@ var signInPost = function(req, res, next) {
     })(req, res, next);
 };
 
+// Route for creating a new diary entry
 var newEntry = function(req, res, next) {
   if(!req.isAuthenticated()) res.redirect('/signin');
-  res.render('newentry');
+  var user = req.user.toJSON();
+  // This is fetching every single book in the database
+  // THIS IS NOT NEEDED, we only need to fetch books that are being followed
+  var bookListPromise = new Model.Book().fetchAll();
+  // This fetches all books a user is currently following
+  var userLibraryPromise = Model.User.where({uid: user.uid}).fetch({withRelated:['library']});
+
+  return bookListPromise.then(function(model) {
+    // This is an array of every book in the database
+    var list = model.toJSON();
+    userLibraryPromise.then(function(followList) {
+      // JSON Array of followed books
+      var following = followList.related('library').toJSON();
+      console.log(following);
+      var fullFollowedListPromise = Model.Library.where({author_id: user.uid}).fetch({withRelated: ['user', 'book']});
+      fullFollowedListPromise.then(function(fullList) {
+        var fullListParse = fullList.toJSON();
+        console.log(fullListParse);
+        var bookIDList = {};
+      });
+      res.render('newentry', {list: list});
+    })
+  })
 }
 
 var register = function(req, res, next) {
